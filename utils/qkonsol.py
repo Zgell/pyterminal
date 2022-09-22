@@ -22,6 +22,8 @@ class QKonsol(QPlainTextEdit):
     length = 0
     history = -1
 
+    DEFAULT_WINDOW_SIZE = (794, 533)
+
     def __init__(self, parent=None):
         super().__init__()
         # Generic config stuff
@@ -43,7 +45,7 @@ class QKonsol(QPlainTextEdit):
         self.setFrameShape(QFrame.NoFrame)
         self.setPalette(palette)
         # Default Size: 720, 480
-        self.resize(720, 480)  # Might need to experiment with this in the future
+        self.resize(*self.DEFAULT_WINDOW_SIZE)  # Might need to experiment with this in the future
 
         self.process = QProcess(self)
         self.process.setProcessChannelMode(QProcess.MergedChannels)
