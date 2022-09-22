@@ -8,9 +8,9 @@ It is to be used as inspiration ONLY.
 TODO: Reverse-engineer this file and understand each of the steps.
 '''
 
-from PyQt6.QtCore import QProcess, Qt, QDir
-from PyQt6.QtGui import QFontMetrics, QKeyEvent, QPalette, QColor, QTextCursor
-from PyQt6.QtWidgets import QPlainTextEdit, QFrame
+from PyQt5.QtCore import QProcess, Qt, QDir
+from PyQt5.QtGui import QFontMetrics, QKeyEvent, QPalette, QColor, QTextCursor
+from PyQt5.QtWidgets import QPlainTextEdit, QFrame
 import sys
 import ctypes  # Used for some OS-specific behaviour
 
@@ -97,6 +97,7 @@ class QKonsol(QPlainTextEdit):
         This override adds the functionality of being able to use the arrow 
         keys to bring up previous commands.
         '''
+        CMD_ENCODING = 'utf8'
         if event.key() in (Qt.Key_Enter, Qt.Key_Return):
             # If the most recently entered command is not from the command history,
             # add it to the list
@@ -107,8 +108,10 @@ class QKonsol(QPlainTextEdit):
             # self.process.writeData(self.userTextEntry + self.__line_end(), self.length)
             # self.userTextEntry = ""
             if (self.userTextEntry != 'ls'):
-                self.length = len(self.userTextEntry + self.__line_end())
-                self.process.writeData(self.userTextEntry + self.__line_end(), self.length)
+                command_as_str = self.userTextEntry + self.__line_end()
+                command = bytearray(command_as_str, CMD_ENCODING)
+                self.length = len(command_as_str)
+                self.process.writeData(command)  # (command, self.length)
                 self.userTextEntry = ""
             else:
                 self.length = len('echo OFF && dir /w && echo ON' + self.__line_end())
