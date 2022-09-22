@@ -8,7 +8,7 @@ It is to be used as inspiration ONLY.
 TODO: Reverse-engineer this file and understand each of the steps.
 '''
 
-from PyQt5.QtCore import QProcess, Qt, QDir
+from PyQt5.QtCore import QProcess, Qt, QDir, pyqtSignal, pyqtSlot as Slot
 from PyQt5.QtGui import QFontMetrics, QKeyEvent, QPalette, QColor, QTextCursor
 from PyQt5.QtWidgets import QPlainTextEdit, QFrame
 import sys
@@ -65,8 +65,6 @@ class QKonsol(QPlainTextEdit):
         # sysEnv = self.process.systemEnvironment()
         # for property in sysEnv:
         #     print(property)
-
-
 
 
     def readStandartOutput(self):
@@ -157,8 +155,6 @@ class QKonsol(QPlainTextEdit):
         # print(self.textCursor().position())
 
 
-
-
     def whatText(self): pass
         # print(self.blockCount())
 
@@ -166,6 +162,7 @@ class QKonsol(QPlainTextEdit):
     def insertFromMimeData(self, source):
         super().insertFromMimeData(source)
         self.userTextEntry += source.text()
+
 
     def mouseReleaseEvent(self, event):
         super().mousePressEvent(event)
@@ -176,7 +173,7 @@ class QKonsol(QPlainTextEdit):
             self.setTextCursor(cur)
 
 
-    def closeEvent(self, event):
-        # TODO: Close the QProcess first, then close app
-        self.process.terminate()
-        #self.process.close()  # Does not appear to be closing cmd.exe properly, need to also call something to close cmd.exe
+    def terminateApp(self):
+        '''Called when main window closes. Forces running process to terminate.'''
+        self.process.kill()  # NEEDS to be kill(), terminate() just stalls indefinitely
+        self.process.waitForFinished()
