@@ -2,5 +2,7 @@
     "Base": [0, 0, 0],
     "Text": [255, 255, 255],
     "Highlight": [255, 255, 255],
-    "HighlightedText": [0, 0, 0]
+    "HighlightedText": [0, 0, 0],
+    "FontFamily": "Consolas",
+    "PointSize": 10
 }

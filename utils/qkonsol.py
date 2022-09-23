@@ -33,19 +33,20 @@ class QKonsol(QPlainTextEdit):
         self.setWindowTitle(self.tr("Terminal"))
         self.setCursorWidth(7)
         self.setContextMenuPolicy(Qt.NoContextMenu)
-        font = self.font()
-        font.setFamily("Consolas")
-        font.setPointSize(10)
-        self.setFont(font)
+        # font = self.font()
+        # font.setFamily("Consolas")
+        # font.setPointSize(10)
+        # self.setFont(font)
         self.setUndoRedoEnabled(False)
+
         # Style stuff
         self.styler = TerminalStyler()
-        # palette = QPalette()
-        # palette.setColor(QPalette.Base, Qt.black)
-        # palette.setColor(QPalette.Text, Qt.white)
-        # palette.setColor(QPalette.Highlight, Qt.white)
-        # palette.setColor(QPalette.HighlightedText, Qt.black)
         palette = self.styler.generate_palette()
+
+        # Font Stuff
+        font = self.styler.generate_font(self.font())
+        self.setFont(font)
+
         self.setFrameShape(QFrame.NoFrame)
         self.setPalette(palette)
         # Default Size: 720, 480
