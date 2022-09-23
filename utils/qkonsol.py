@@ -8,6 +8,8 @@ It is to be used as inspiration ONLY.
 TODO: Reverse-engineer this file and understand each of the steps.
 '''
 
+from utils.terminal_style import TerminalStyler
+
 from PyQt5.QtCore import QProcess, Qt, QDir, pyqtSignal, pyqtSlot as Slot
 from PyQt5.QtGui import QFontMetrics, QKeyEvent, QPalette, QColor, QTextCursor
 from PyQt5.QtWidgets import QPlainTextEdit, QFrame
@@ -37,11 +39,13 @@ class QKonsol(QPlainTextEdit):
         self.setFont(font)
         self.setUndoRedoEnabled(False)
         # Style stuff
-        palette = QPalette()
-        palette.setColor(QPalette.Base, Qt.black)
-        palette.setColor(QPalette.Text, Qt.white)
-        palette.setColor(QPalette.Highlight, Qt.white)
-        palette.setColor(QPalette.HighlightedText, Qt.black)
+        self.styler = TerminalStyler()
+        # palette = QPalette()
+        # palette.setColor(QPalette.Base, Qt.black)
+        # palette.setColor(QPalette.Text, Qt.white)
+        # palette.setColor(QPalette.Highlight, Qt.white)
+        # palette.setColor(QPalette.HighlightedText, Qt.black)
+        palette = self.styler.generate_palette()
         self.setFrameShape(QFrame.NoFrame)
         self.setPalette(palette)
         # Default Size: 720, 480
