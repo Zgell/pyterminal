@@ -120,7 +120,7 @@ class QKonsol(QPlainTextEdit):
                 self.userTextEntry = ""
             else:
                 self.length = len('echo OFF && dir /w && echo ON' + self.__line_end())
-                self.process.writeData('echo OFF && dir /w && echo ON' + self.__line_end(), self.length)
+                self.process.writeData(bytearray('echo OFF && dir /w && echo ON' + self.__line_end(), CMD_ENCODING) )
                 self.userTextEntry = ""
 
         elif event.key() == Qt.Key_Backspace:
